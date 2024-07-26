@@ -50,10 +50,40 @@ exports.getallUser = async (req, res) => {
                 return res.status(404).json({ mes: 'invalide email or mobile' });
             }
             if (userModule.password !== password) {
-                 res(404).json({ mes: "incorrect password" });
+                res(404).json({ mes: "incorrect password" });
             }
             res.json(user);
 
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    },
+    exports.updateUser = async (req, res) => {
+        try {
+            const userId = req.params.id;
+            const updatedcont = req.body;
+
+            const updateUser = await userModule.findByIdAndUpdate(userId, updatedcont, { new: true });
+
+            if (!updateUser) {
+                res.status(404).json({ mes: 'failed to update' });
+            }
+            res.status(200).json(updateUser);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    },
+    exports.deleteUser = async (req, res) => {
+        try {
+
+            const userId = req.params.id;
+
+            const deleteUser = await userModule.findByIdAndDelete(userId);
+
+            if (!deleteUser) {
+                res.status(404).json({ mes: 'invalide user id' });
+            }
+            res.status(200).json({mes:'delete sucessfully'});
         } catch (error) {
             res.status(500).json(error);
         }

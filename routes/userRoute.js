@@ -13,5 +13,9 @@ route.get('/user/:id',userControl.getsingle);
 
 route.post('/user/login',userControl.loginUser);
 
+route.put('/update/:id',userControl.updateUser);
+
+route.delete('/delete/:id',userControl.deleteUser);
+
 module.exports = route;
 

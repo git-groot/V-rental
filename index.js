@@ -1,25 +1,22 @@
-
 const express = require('express');
-const mongooes = require('mongoose');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const userRout = require('./routes/userRoute')
-
+const userRoute = require('./routes/userRoute');
+const cors = require('cors'); // Import the cors package
 
 const app = express();
 
+app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-app.use('/api',userRout);
+app.use('/api', userRoute);
 
+const dbUrl = 'mongodb://localhost:27017/Vrental';
 
-const dburl = 'mongodb://localhost:27017/Vrental';
-
-mongooes.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true })
-
-    .then(() => console.log('mongo connect sucessfully'))
-    .catch((error) => console.error('connection failed', error));
-
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch((error) => console.error('Connection failed', error));
 
 app.listen(2000, () => {
-    console.log('server is running on port 2000');
-})
+    console.log('Server is running on port 2000');
+});

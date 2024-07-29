@@ -2,14 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoute = require('./routes/userRoute');
-const cors = require('cors'); // Import the cors package
+const carsRoute=require('./routes/CarRoutes');
 
+const cors = require('cors'); // Import the cors package
 const app = express();
 
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
 app.use('/api', userRoute);
+
+app.use('/cars',carsRoute);
 
 const dbUrl = 'mongodb://localhost:27017/Vrental';
 

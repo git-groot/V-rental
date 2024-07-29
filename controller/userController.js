@@ -40,24 +40,39 @@ exports.getallUser = async (req, res) => {
         };
 
     },
-
-    exports.loginUser = async (req, res) => {
-        const { email, mobile, password } = req.body;
+    exports.loginUser=  async (req, res) => {
+        const { mobile, password } = req.body;
         try {
-            const user = await userModule.findOne({ $or: [{ email }, { mobile }] });
-            // res.json(user);
+            const user = await userModule.findOne({ mobile });
             if (!user) {
-                return res.status(404).json({ mes: 'invalide email or mobile' });
+                return res.status(404).json({ message: 'Invalid mobile' });
             }
-            if (userModule.password !== password) {
-                res(404).json({ mes: "incorrect password" });
+            if (user.password !== password) {
+                return res.status(404).json({ message: 'Incorrect password' });
             }
-            res.json(user);
-
+            res.status(200).json({ message: 'Login successfully', user });
         } catch (error) {
-            res.status(500).json(error);
+            res.status(500).json({ message: 'An error occurred', error });
         }
-    },
+    };
+
+    // exports.loginUser = async (req, res) => {
+    //     const { email, mobile, password } = req.body;
+    //     try {
+    //         const user = await userModule.findOne({ $or: [{ email }, { mobile }] });
+    //         // res.json(user);
+    //         if (!user) {
+    //             return res.status(404).json({ mes: 'invalide email or mobile' });
+    //         }
+    //         if (userModule.password !== password) {
+    //             res(404).json({ mes: "incorrect password" });
+    //         }
+    //         res.status(200).json(user);
+
+    //     } catch (error) {
+    //         res.status(500).json(error);
+    //     }
+    // },
     exports.updateUser = async (req, res) => {
         try {
             const userId = req.params.id;
@@ -83,7 +98,7 @@ exports.getallUser = async (req, res) => {
             if (!deleteUser) {
                 res.status(404).json({ mes: 'invalide user id' });
             }
-            res.status(200).json({mes:'delete sucessfully'});
+            res.status(200).json({ mes: 'delete sucessfully' });
         } catch (error) {
             res.status(500).json(error);
         }

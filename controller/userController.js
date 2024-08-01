@@ -64,7 +64,7 @@ exports.getallUser = async (req, res) => {
     //         if (!user) {
     //             return res.status(404).json({ mes: 'invalide email or mobile' });
     //         }
-    //         if (userModule.password !== password) {
+    //         if (user.password !== password) {
     //             res(404).json({ mes: "incorrect password" });
     //         }
     //         res.status(200).json(user);

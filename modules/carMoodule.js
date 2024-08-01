@@ -1,23 +1,11 @@
 const mongooes = require('mongoose');
 
 const carTab = new mongooes.Schema({
-    name: {
+    brandName: {
         type: String,
         require: true,
     },
-    type: {
-        type: String,
-        require: true,
-    },
-    seats: {
-        type: String,
-        require: true,
-    },
-    kmsIncluded: {
-        type: String,
-        require: true,
-    },
-    farePerKm: {
+    seater: {
         type: String,
         require: true,
     },
@@ -25,33 +13,57 @@ const carTab = new mongooes.Schema({
         type: String,
         require: true,
     },
-    cancellationPolicy: {
+    model: {
         type: String,
         require: true,
     },
-    baseFare: {
+    tollType: {
         type: String,
         require: true,
     },
-    discount: {
+    type: {
         type: String,
         require: true,
     },
-    rating: {
+    acOrNonAc: {
         type: String,
         require: true,
     },
-    ratingsCount: {
+    color: {
         type: String,
         require: true,
     },
-    carImage: {
+    review: {
         type: String,
         require: true,
+    },
+    range: {
+        type: String,
+        require: true,
+    },
+    price: {
+        type: String,
+        require: true,
+    },
+    gearType: {
+        type: String,
+        require: true,
+    },
+    registrationNumber:{
+        type:String,
+        require:true,
+    },
+    star:{
+        type:String,
+        require:true,
+    },
+    uploadImage:{
+        type:String,
+        require:true,
     },
 
 });
 
-const cartab = mongooes.model("cars", carTab);
+const cartab = mongooes.model("carstab", carTab);
 
 module.exports = cartab

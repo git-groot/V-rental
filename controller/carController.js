@@ -29,7 +29,7 @@ const upload = multer({
 });
 
 exports.addcars = async (req, res) => {
-    upload.single('carImage')(req, res, async (err) => {
+    upload.single('uploadImage')(req, res, async (err) => {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
@@ -82,7 +82,7 @@ exports.deleteCar = async (req, res) => {
 };
 
 exports.updateCar = async (req, res) => {
-    upload.single('carImage')(req, res, async (err) => {
+    upload.single('uploadImage')(req, res, async (err) => {
         if (err) {
             return res.status(400).json({ error: err.message });
         }

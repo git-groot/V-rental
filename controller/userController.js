@@ -102,4 +102,9 @@ exports.getallUser = async (req, res) => {
         } catch (error) {
             res.status(500).json(error);
         }
+    },
+
+    exports .adminLogin =async(req,res)=>{
+
+        const documents=await test
     }

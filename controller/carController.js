@@ -36,7 +36,7 @@ exports.addcars = async (req, res) => {
 
         const car = new cartab({
             ...req.body,
-            carImage: req.file ? req.file.filename : null
+            uploadImage: req.file ? `/uploads/${req.file.filename}` : null
         });
 
         try {

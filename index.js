@@ -3,12 +3,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoute = require('./routes/userRoute');
 const carsRoute=require('./routes/CarRoutes');
+const path=require('path')
 
 const cors = require('cors'); // Import the cors package
 const app = express();
 
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
+
+// app.use('./uploads',express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api', userRoute);
 

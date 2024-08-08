@@ -52,6 +52,7 @@ exports.getCars = async (req, res) => {
     try {
         const cars = await cartab.find();
         res.status(200).json(cars);
+        res.status(200).json(cars.uploadImage);
     } catch (error) {
         res.status(500).json(error);
     }
@@ -73,7 +74,7 @@ exports.deleteCar = async (req, res) => {
     try {
         const car = await cartab.findByIdAndDelete(req.params.id);
         if (!car) {
-            return res.status(404).json({ message: 'Car not found' });
+            return res.status(404).json({ message: ' car id not found' });
         }
         res.status(200).json({ message: 'Car deleted successfully' });
     } catch (error) {

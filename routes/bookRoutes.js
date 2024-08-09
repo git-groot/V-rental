@@ -4,8 +4,9 @@ const route = express.Router();
 
 route.post('/add/booking',bookControle.addbook);
 
-route.get('/getall/booking',)
+route.get('/getall/booking',bookControle.getallbooking);
 
+route.get('/getsingle/booking/:id',bookControle.getsinglebook);
 
 
 module.exports=route;

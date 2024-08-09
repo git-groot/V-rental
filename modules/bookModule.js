@@ -61,6 +61,11 @@ const booktable = new mongooes.Schema({
         type: String,
         require: true,
     },
+    carNumber:{
+        type:String,
+        require:true,
+    },
+    
 
 });
 

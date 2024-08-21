@@ -9,8 +9,8 @@ exports.addbook = async (req, res) => {
 
         const bookingData = {
             ...booking,
-            startDate: booking.startDate ? moment(booking.startDate, 'DD-MM-YYYY').toDate() : undefined,
-            endDate: booking.endDate ? moment(booking.endDate, 'DD-MM-YYYY').toDate() : undefined,
+            startDate: booking.startDate ? moment(booking.startDate, 'YYYY-MM-DD').toDate() : undefined,
+            endDate: booking.endDate ? moment(booking.endDate, 'YYYY-MM-DD').toDate() : undefined,
             startTime: booking.startTime ? moment(booking.startTime, 'hh:mm:ss A').toDate() : undefined,
             endTime: booking.endTime ? moment(booking.endTime, 'hh:mm:ss A').toDate() : undefined,
             status: booking.status || 'Pending', // Default to 'Pending' if status is not provided

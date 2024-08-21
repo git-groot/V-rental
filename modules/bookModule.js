@@ -10,16 +10,16 @@ const booktable = new mongooes.Schema({
         require: true,
     },
     startDate: {
-        type: String,
+        type: Date,
     },
     endDate: {
-        type: String,
+        type: Date,
     },
     startTime: {
-        type: String,
+        type: Date,
     },
     endTime: {
-        type: String,
+        type: Date,
     },
     travalType: {
         type: String,
@@ -61,11 +61,14 @@ const booktable = new mongooes.Schema({
         type: String,
         require: true,
     },
-    carNumber:{
-        type:String,
-        require:true,
+    carNumber: {
+        type: String,
+        require: true,
     },
-    
+
+    status: { type: String },
+    paymentStatus:{type:String},
+    totalAmount:{type:Number},
 
 });
 

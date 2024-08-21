@@ -10,5 +10,7 @@ route.get('/getsingle/booking/:id',bookControle.getsinglebook);
 
 route.put('/update/:id',bookControle.updateBook);
 
+route.post('/filter',bookControle.bookFilter);
+
 
 module.exports=route;

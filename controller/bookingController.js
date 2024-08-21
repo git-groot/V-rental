@@ -87,7 +87,27 @@ exports.updateBook = async (req, res) => {
 
 exports.bookFilter = async (req, res) => {
 
-    const givenStartDate = new Date("");
-    const givenEndDate = new Date("2024-08-24T00:00:00.000Z");
+    try {
+        const { startDate, endDate } = req.body;
 
+        if (!startDate || !endDate) {
+            console.log(startDate, endDate);
+            return res.status(400).json({ message: 'startDate and endDate are required' });
+        }
+
+        const filterCriteria = {
+            $or: [
+                { startDate: { $ne: new Date(startDate) } },
+                { endDate: { $ne: new Date(endDate) } }
+            ]
+        };
+
+        const filteredResults = await booktab.find(filterCriteria);
+
+        return res.status(200).json(filteredResults);
+
+    } catch (error) {
+        console.error('Error while filtering bookings:', error);
+        return res.status(500).json({ message: 'An error occurred while filtering bookings', error });
+    }
 }

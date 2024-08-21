@@ -15,8 +15,8 @@ exports.addbook = async (req, res) => {
             endTime: booking.endTime ? moment(booking.endTime, 'hh:mm:ss A').toDate() : undefined,
             status: booking.status || 'Pending', // Default to 'Pending' if status is not provided
             paymentStatus: booking.paymentStatus || 'Unpaid', // Default to 'Unpaid' if paymentStatus is not provided
-            totalTime:booking.totalTime || "0",
-            advanceAmount:booking.advanceAmount || 0,
+            totalTime: booking.totalTime || "0",
+            advanceAmount: booking.advanceAmount || 0,
         };
 
         const newBooking = new booktab(bookingData);
@@ -65,7 +65,7 @@ exports.updateBook = async (req, res) => {
             endTime: updates.endTime ? moment(updates.endTime, 'hh:mm:ss A').toDate() : undefined,
             status: updates.status || 'Pending', // Default to 'Pending' if status is not provided
             paymentStatus: updates.paymentStatus || 'Unpaid', // Default to 'Unpaid' if paymentStatus is not provided
-            
+
         };
 
         // Find the booking by ID and update it
@@ -83,4 +83,11 @@ exports.updateBook = async (req, res) => {
         console.log(error);
         return res.status(500).json({ message: "An error occurred while updating the booking", error });
     }
+};
+
+exports.bookFilter = async (req, res) => {
+
+    const givenStartDate = new Date("");
+    const givenEndDate = new Date("2024-08-24T00:00:00.000Z");
+
 }

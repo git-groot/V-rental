@@ -48,3 +48,7 @@ exports.getsinglebook = async (req, res) => {
         return res.status(500).json(error);
     }
 };
+
+exports.filterBooking= async (req,res)=>{
+
+}

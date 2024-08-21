@@ -8,5 +8,7 @@ route.get('/getall/booking',bookControle.getallbooking);
 
 route.get('/getsingle/booking/:id',bookControle.getsinglebook);
 
+route.put('/update/:id',bookControle.updateBook);
+
 
 module.exports=route;

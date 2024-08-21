@@ -15,7 +15,7 @@ const booktable = new mongooes.Schema({
     endDate: {
         type: Date,
     },
-    startTime: {  
+    startTime: {
         type: Date,
     },
     endTime: {
@@ -67,8 +67,12 @@ const booktable = new mongooes.Schema({
     },
 
     status: { type: String },
-    paymentStatus:{type:String},
-    totalAmount:{type:Number},
+    paymentStatus: { type: String },
+    totalAmount: { type: Number },
+    advanceAmount: { type: Number },
+    numberOfDate: { type: Number },
+    totalTime: { type: String },
+    tax: { type: Number },
 
 });
 

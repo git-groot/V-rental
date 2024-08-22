@@ -1,6 +1,7 @@
 
 const booktab = require('../modules/bookModule');
 const moment = require('moment');
+const cartab = require('../modules/carMoodule');
 
 exports.addbook = async (req, res) => {
 
@@ -91,21 +92,34 @@ exports.bookFilter = async (req, res) => {
         const { startDate, endDate } = req.body;
 
         if (!startDate || !endDate) {
-            console.log(startDate, endDate);
             return res.status(400).json({ message: 'startDate and endDate are required' });
         }
 
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+
+        // Define filter criteria based on dates
         const filterCriteria = {
             $or: [
-                { startDate: { $ne: new Date(startDate) } },
-                { endDate: { $ne: new Date(endDate) } }
+                { startDate: { $ne: startDateObj } },
+                { endDate: { $ne: endDateObj } }
             ]
         };
 
-        const filteredResults = await booktab.find(filterCriteria);
+        // Lookup cars related to bookings
+        const filteredResults = await booktab.aggregate([
+            { $match: filterCriteria },
+            {
+                $lookup: {
+                    from: 'carstabs', // Collection name in MongoDB
+                    localField: 'carNumber',
+                    foreignField: 'registrationNumber',
+                    as: 'availableCar'
+                }
+            }
+        ]);
 
         return res.status(200).json(filteredResults);
-
     } catch (error) {
         console.error('Error while filtering bookings:', error);
         return res.status(500).json({ message: 'An error occurred while filtering bookings', error });

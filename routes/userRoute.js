@@ -1,4 +1,4 @@
-
+// userRoute.js
 const express = require('express');
 const userModule = require('../modules/userModule');
 const userControl = require('../controller/userController')

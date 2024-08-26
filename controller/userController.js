@@ -1,7 +1,6 @@
-
+// userController.js
 const { json } = require('body-parser');
 const userModule = require('../modules/userModule');
-const { use } = require('../routes/userRoute');
 
 
 

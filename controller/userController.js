@@ -3,8 +3,6 @@ const { json } = require('body-parser');
 const userModule = require('../modules/userModule');
 
 
-
-
 exports.adduser = async (req, res) => {
     const user = new userModule(req.body);
     try {

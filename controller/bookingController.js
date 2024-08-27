@@ -32,6 +32,7 @@ exports.addbook = async (req, res) => {
 };
 
 exports.getallbooking = async (req, res) => {
+    
     try {
         const getallbooking = await booktab.find();
         res.status(200).json(getallbooking);
@@ -92,11 +93,11 @@ exports.bookFilter = async (req, res) => {
         const { startDate, endDate } = req.body;
 
         if (!startDate || !endDate) {
-            return res.status(400).json({ message: 'startDate and endDate are required' });
+            return res.status(400).json({ message: 'startDate and endDate are required ' });
         }
 
         const startDateObj = new Date(startDate);
-        const endDateObj = new Date(endDate);
+        const endDateObj = new Date(endDate);   
 
         // Define filter criteria based on dates
         const filterCriteria = {

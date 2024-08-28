@@ -87,42 +87,78 @@ exports.updateBook = async (req, res) => {
     }
 };
 
-exports.bookFilter = async (req, res) => {
+// exports.bookFilter = async (req, res) => {
 
+//     try {
+//         const { startDate, endDate } = req.body;
+
+//         if (!startDate || !endDate) {
+//             return res.status(400).json({ message: 'startDate and endDate are required ' });
+//         }
+
+//         const startDateObj = new Date(startDate);
+//         const endDateObj = new Date(endDate);   
+
+//         // Define filter criteria based on dates
+//         const filterCriteria = {
+//             $or: [
+//                 { startDate: { $ne: startDateObj } },
+//                 { endDate: { $ne: endDateObj } }
+//             ]
+//         };
+
+//         // Lookup cars related to bookings
+//         const filteredResults = await booktab.aggregate([
+//             { $match: filterCriteria },
+//             {
+//                 $lookup: {
+//                     from: 'carstabs', // Collection name in MongoDB
+//                     localField: 'carNumber',
+//                     foreignField: 'registrationNumber',
+//                     as: 'availableCar'
+//                 }
+//             }
+//         ]);
+
+//         return res.status(200).json(filteredResults);
+//     } catch (error) {
+//         console.error('Error while filtering bookings:', error);
+//         return res.status(500).json({ message: 'An error occurred while filtering bookings', error });
+//     }
+// }
+
+exports.bookFilter = async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
 
         if (!startDate || !endDate) {
-            return res.status(400).json({ message: 'startDate and endDate are required ' });
+            return res.status(400).json({ message: 'startDate and endDate are required' });
         }
 
         const startDateObj = new Date(startDate);
-        const endDateObj = new Date(endDate);   
+        const endDateObj = new Date(endDate);
 
-        // Define filter criteria based on dates
-        const filterCriteria = {
+        // Define filter criteria for overlapping bookings
+        const overlappingFilter = {
             $or: [
-                { startDate: { $ne: startDateObj } },
-                { endDate: { $ne: endDateObj } }
+                { startDate: { $lt: endDateObj }, endDate: { $gt: startDateObj } }
             ]
         };
 
-        // Lookup cars related to bookings
-        const filteredResults = await booktab.aggregate([
-            { $match: filterCriteria },
-            {
-                $lookup: {
-                    from: 'carstabs', // Collection name in MongoDB
-                    localField: 'carNumber',
-                    foreignField: 'registrationNumber',
-                    as: 'availableCar'
-                }
-            }
-        ]);
+        // Find all car numbers that are booked within the specified date range
+        const bookedCars = await booktab.find(overlappingFilter).distinct('carNumber');
+        
+        // Filter to exclude booked cars from the results
+        const filterCriteria = {
+            registrationNumber: { $nin: bookedCars }
+        };
 
-        return res.status(200).json(filteredResults);
+        // Lookup available cars that are not booked within the specified date range
+        const availableCars = await cartab.find(filterCriteria);
+        return res.status(200).json(availableCars);
+
     } catch (error) {
         console.error('Error while filtering bookings:', error);
         return res.status(500).json({ message: 'An error occurred while filtering bookings', error });
     }
-}
+};

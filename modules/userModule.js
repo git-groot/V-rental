@@ -20,6 +20,7 @@ const userTab = new mongooes.Schema({
     mobile: {
         type: String,
         required: true,
+        unique:true,
     },
     address: {
         type: String,
@@ -28,6 +29,7 @@ const userTab = new mongooes.Schema({
     email: {
         type: String,
         required: true,
+        unique:true,
     },
     password: {
         type: String,

@@ -1,5 +1,4 @@
 // userController.js
-const { json } = require('body-parser');
 const userModule = require('../modules/userModule');
 
 
@@ -10,6 +9,11 @@ exports.adduser = async (req, res) => {
         res.status(200).json(user);
     }
     catch (error) {
+        if (error.code === 11000) {
+            const field = Object.keys(error.keyValue)[0];
+            return res.status(400).json({ error: `${field} already exists` });
+        }
+
         res.status(500).json(error);
     }
 };

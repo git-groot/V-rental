@@ -132,7 +132,7 @@ exports.bookFilter = async (req, res) => {
         const { startDate, endDate } = req.body;
 
         if (!startDate || !endDate) {
-            return res.status(400).json({ message: 'startDate and endDate are required' });
+            return res.status(400).json({message: 'startDate and endDate are required' });
         }
 
         const startDateObj = new Date(startDate);

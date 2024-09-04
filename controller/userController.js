@@ -3,20 +3,29 @@ const userModule = require('../modules/userModule');
 
 
 exports.adduser = async (req, res) => {
-    const user = new userModule(req.body);
     try {
-        await user.save();
-        res.status(200).json(user);
-    }
-    catch (error) {
-        if (error.code === 11000) {
-            const field = Object.keys(error.keyValue)[0];
-            return res.status(400).json({ error: `${field} already exists` });
+        // Check if the user already exists by email or mobile
+        const existingEmailUser = await userModule.findOne({ email: req.body.email });
+        const existingMobileUser = await userModule.findOne({ mobile: req.body.mobile });
+
+        if (existingEmailUser && existingMobileUser) {
+            return res.status(400).json({ error: "Email and mobile already exist" });
+        } else if (existingEmailUser) {
+            return res.status(400).json({ error: "Email already exists" });
+        } else if (existingMobileUser) {
+            return res.status(400).json({ error: "Mobile already exists" });
         }
 
+        // If the user doesn't exist, create a new user
+        const user = new userModule(req.body);
+        await user.save();
+        res.status(200).json(user);
+    } catch (error) {
         res.status(500).json(error);
     }
 };
+
+
 
 exports.getallUser = async (req, res) => {
     try {

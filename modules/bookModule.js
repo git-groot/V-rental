@@ -56,7 +56,7 @@ const booktable = new mongooes.Schema({
     proof: {
         type: String,
         require: true,
-    },
+    }, 
     paymentMethod: {
         type: String,
         require: true,

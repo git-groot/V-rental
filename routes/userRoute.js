@@ -17,6 +17,8 @@ route.put('/update/:id',userControl.updateUser);
 
 route.delete('/delete/:id',userControl.deleteUser);
 
+route.post('/sendEmail',userControl.emailSend);
+
 
 module.exports = route;
 

@@ -127,16 +127,24 @@ exports.updateBook = async (req, res) => {
 //     }
 // }
 
+
 exports.bookFilter = async (req, res) => {
     try {
-        const { startDate, endDate } = req.body;
+        const { startDate, endDate, priceRange,vehicleType} = req.body;
+
 
         if (!startDate || !endDate) {
             return res.status(400).json({message: 'startDate and endDate are required' });
         }
 
+
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);
+
+
+
+
+
 
         // Define filter criteria for overlapping bookings
         const overlappingFilter = {
@@ -145,20 +153,32 @@ exports.bookFilter = async (req, res) => {
             ]
         };
 
+
         // Find all car numbers that are booked within the specified date range
         const bookedCars = await booktab.find(overlappingFilter).distinct('carNumber');
-        
+        console.log(priceRange);
+        const maxPrice = priceRange ? Number(priceRange) : Infinity;
+
+
         // Filter to exclude booked cars from the results
         const filterCriteria = {
-            registrationNumber: { $nin: bookedCars }
+            registrationNumber: { $nin: bookedCars },
+            $expr: {
+                $lte: [{ $toDouble: "$price" }, maxPrice]  // Convert price to a number and compare
+            },  // Ensure priceRange is a number
+            type: vehicleType === "none" ? { $in: ["Bike", "Car", "Van"] } : vehicleType
         };
+
 
         // Lookup available cars that are not booked within the specified date range
         const availableCars = await cartab.find(filterCriteria);
+        console.log(availableCars);
         return res.status(200).json(availableCars);
+
 
     } catch (error) {
         console.error('Error while filtering bookings:', error);
         return res.status(500).json({ message: 'An error occurred while filtering bookings', error });
     }
 };
+

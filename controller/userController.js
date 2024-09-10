@@ -3,7 +3,7 @@ const { text } = require('body-parser');
 const userModule = require('../modules/userModule');
 const maile = require('nodemailer');
 const booktab=require('../modules/bookModule')
-
+const moment =require('moment')
 
 exports.adduser = async (req, res) => {
     try {
@@ -127,10 +127,15 @@ exports.emailSend = async (req, res) => {
     const bookinId=req.body;
 
     const user=await booktab.findOne({_id:bookinId});
+    if(!user){
+        return res.status(404).json({mes:"invalide bookings"})
+    }
 
-
-    console.log(user.startDate);
-    console.log(user.endDate);
+    const dat=user.startDate;
+    const Sdate=moment(dat).format('DD-MM-YYYY');
+    
+    const da =user.endDate;
+    const Edate=moment(da).format('DD-MM-YYYY');
     
     
 
@@ -422,7 +427,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: center; word-wrap: break-word;">
-    <p style="line-height: 140%;">VolksWagans  ( py05H0001)</p>
+    <p style="line-height: 140%;">    </p>
   </div>
 
       </td>
@@ -436,7 +441,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;">Start Date                  ${user.startDate}</p>
+    <p style="line-height: 140%;">Start Date                  ${Sdate}</p>
   </div>
 
       </td>
@@ -450,7 +455,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;">End Date                    ${user.endDate} </p>
+    <p style="line-height: 140%;">End Date                    ${Edate} </p>
   </div>
 
       </td>
@@ -752,7 +757,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
 
     let mailOption = {
         from:'github437@gmail.com',
-        to: user.email,
+        to: 'harrismk142003@gmail.com',
         subject: ' Booking details ',
         text: 'hello' + user.name,
         html: body,

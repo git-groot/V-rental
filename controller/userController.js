@@ -2,6 +2,7 @@
 const { text } = require('body-parser');
 const userModule = require('../modules/userModule');
 const maile = require('nodemailer');
+const booktab=require('../modules/bookModule')
 
 
 exports.adduser = async (req, res) => {
@@ -125,6 +126,13 @@ exports.updateUser = async (req, res) => {
 exports.emailSend = async (req, res) => {
     const bookinId=req.body;
 
+    const user=await booktab.findOne({_id:bookinId});
+
+
+    console.log(user.startDate);
+    console.log(user.endDate);
+    
+    
 
     let transport = maile.createTransport({
         service: "gmail",
@@ -373,7 +381,8 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
   <tr>
     <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
       
-      <a href="https://ibb.co/X5Hp4DG"><img src="https://i.ibb.co/kJTM3rV/image-7.png" alt="image-1" border="0"></a>
+      <img align="center" border="0" src="https://i.ibb.co/kJTM3rV/image-7.png" alt="" title="" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 51%;max-width: 295.8px;" width="295.8"/>
+
       
     </td>
   </tr>
@@ -427,7 +436,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;">Start Date                  15/02/2024</p>
+    <p style="line-height: 140%;">Start Date                  ${user.startDate}</p>
   </div>
 
       </td>
@@ -441,7 +450,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;">End Date                    18/09/2024</p>
+    <p style="line-height: 140%;">End Date                    ${user.endDate} </p>
   </div>
 
       </td>
@@ -455,7 +464,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;">Name                          Harish Mk</p>
+    <p style="line-height: 140%;">Name                          ${user.name} </p>
   </div>
 
       </td>
@@ -469,7 +478,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;">Proof                           Aadhar</p>
+    <p style="line-height: 140%;">Proof                            ${user.proof} </p>
   </div>
 
       </td>
@@ -483,7 +492,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;">Address                      No 229 ,, keprevos  </p>
+    <p style="line-height: 140%;">Address                      ${user.address} </p>
   </div>
 
       </td>
@@ -497,7 +506,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 400; line-height: 140%; text-align: justify; word-wrap: break-word;">
-    <p style="line-height: 140%;"><strong>Contact                       9345451111</strong></p>
+    <p style="line-height: 140%;"><strong>Contact                        ${user.mobile} </strong></p>
   </div>
 
       </td>
@@ -615,12 +624,12 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
     <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 10px">
       <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
         <a href="https://twitter.com/unlayerapp" title="Twitter" target="_blank">
-          <img src="images/image-1.png" alt="Twitter" title="Twitter" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+          <img src="https://i.ibb.co/rp9Mt3X/image-1.png" alt="Twitter" title="Twitter" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
         </a>
       </td></tr>
     </tbody></table>
     <!--[if (mso)|(IE)]></td><![endif]-->
-    
+     
     <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 10px;" valign="top"><![endif]-->
     <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 10px">
       <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
@@ -707,9 +716,6 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
   <tr>
     <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
       
-     <a href="https://www.instagram.com/unlayer_official/" title="Instagram" target="_blank">
-          <img src="https://i.ibb.co/rp9Mt3X/image-1.png" alt="Instagram" title="Instagram" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-        </a>
 
       
     </td>
@@ -746,9 +752,9 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
 
     let mailOption = {
         from:'github437@gmail.com',
-        to:'iamsurya437@gmail.com',
-        subject: 'checking',
-        text: 'hello user',
+        to: user.email,
+        subject: ' Booking details ',
+        text: 'hello' + user.name,
         html: body,
 
     };

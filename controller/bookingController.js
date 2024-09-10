@@ -23,7 +23,10 @@ exports.addbook = async (req, res) => {
         const newBooking = new booktab(bookingData);
         console.log(newBooking);
         const savBooking = await newBooking.save();
+        
         return res.status(200).json(savBooking);
+
+
 
     } catch (error) {
         console.log(error);

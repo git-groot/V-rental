@@ -759,7 +759,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
         from:'github437@gmail.com',
         to: 'harrismk142003@gmail.com',
         subject: ' Booking details ',
-        text: 'hello' + user.name,
+        text: 'hello harrish',
         html: body,
 
     };

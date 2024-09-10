@@ -4,6 +4,7 @@ const userModule = require('../modules/userModule');
 const maile = require('nodemailer');
 const booktab=require('../modules/bookModule')
 const moment =require('moment')
+const mongoose = require('mongoose');
 
 exports.adduser = async (req, res) => {
     try {
@@ -123,30 +124,35 @@ exports.updateUser = async (req, res) => {
     }
 
 
-exports.emailSend = async (req, res) => {
-    const bookinId=req.body;
-
-    const user=await booktab.findOne({_id:bookinId});
-    if(!user){
-        return res.status(404).json({mes:"invalide bookings"})
-    }
-
-    const dat=user.startDate;
-    const Sdate=moment(dat).format('DD-MM-YYYY');
-    
-    const da =user.endDate;
-    const Edate=moment(da).format('DD-MM-YYYY');
-    
-    
-
-    let transport = maile.createTransport({
-        service: "gmail",
-        auth: {
-            user: 'github437@gmail.com',
-            pass: 'kcuz rriw czdq ckay'
-        }
-    });
-
+    exports.emailSend = async (req, res) => {
+        try {
+            // Extract bookingId from req.body
+            const { bookingId } = req.body;
+   
+            // Make sure bookingId is a valid ObjectId
+            if (!mongoose.Types.ObjectId.isValid(bookingId)) {
+                return res.status(400).json({ message: "Invalid booking ID format" });
+            }
+   
+            // Find the booking using the bookingId
+            const user = await booktab.findOne({ _id: bookingId });
+            if (!user) {
+                return res.status(404).json({ message: "Invalid booking" });
+            }
+   
+            // Format the start and end dates
+            const Sdate = moment(user.startDate).format('DD-MM-YYYY');
+            const Edate = moment(user.endDate).format('DD-MM-YYYY');
+   
+            // Email configuration
+            let transport = maile.createTransport({
+                service: "gmail",
+                auth: {
+                    user: 'github437@gmail.com',
+                    pass: 'kcuz rriw czdq ckay'
+                }
+            });
+  
     const body = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -755,20 +761,27 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
 </html>
 `;
 
-    let mailOption = {
-        from:'github437@gmail.com',
-        to: 'harrismk142003@gmail.com',
-        subject: ' Booking details ',
-        text: 'hello harrish',
-        html: body,
-
-    };
-
-    transport.sendMail(mailOption, (error, info) => {
-        if (error) {
-            return console.log(`error: ${error}`);
-        }
-        return res.status(200).json({ mess: 'email send successfully' })
-        console.log(`mess: ${info.response}`);
-    });
-}
+let mailOption = {
+    from: 'github437@gmail.com',
+    to: user.email,
+    subject: 'Booking details',
+    text: 'Hello' + user.name,
+    html: body, // Make sure `body` is defined correctly
+  };
+  
+  
+  // Send the email
+  transport.sendMail(mailOption, (error, info) => {
+    if (error) {
+        console.log(`Error: ${error}`);
+        return res.status(500).json({ message: "Failed to send email" });
+    }
+    console.log(`Message sent: ${info.response}`);
+    return res.status(200).json({ message: 'Email sent successfully' });
+  });
+  } catch (error) {
+  console.log(error);
+  res.status(500).json({ message: "Server error" });
+  }
+  };
+  

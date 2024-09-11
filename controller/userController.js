@@ -148,8 +148,8 @@ exports.updateUser = async (req, res) => {
             let transport = maile.createTransport({
                 service: "gmail",
                 auth: {
-                    user: 'github437@gmail.com',
-                    pass: 'kcuz rriw czdq ckay'
+                    user: 'smvecguys2024@gmail.com',
+                    pass: 'rilw wpcs xizu vzsh'
                 }
             });
   
@@ -392,7 +392,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
   <tr>
     <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
       
-      <img align="center" border="0" src="https://i.ibb.co/kJTM3rV/image-7.png" alt="" title="" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 51%;max-width: 295.8px;" width="295.8"/>
+      <img align="center" border="0" src="https://i.ibb.co/s5VM4QZ/pngegg.png" alt="" title="" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 95%;/>
 
       
     </td>
@@ -433,7 +433,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 45px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-family: arial black,AvenirNext-Heavy,avant garde,arial; font-size: 14px; font-weight: 700; line-height: 140%; text-align: center; word-wrap: break-word;">
-    <p style="line-height: 140%;">    </p>
+    <p style="line-height: 140%;"> ${user.carNumber}   </p>
   </div>
 
       </td>
@@ -762,10 +762,10 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
 `;
 
 let mailOption = {
-    from: 'github437@gmail.com',
+    from: 'smvecguys2024@gmail.com',
     to: user.email,
-    subject: 'Booking details',
-    text: 'Hello' + user.name,
+    subject: ' Booking details',
+    text: 'Hello' + user.name, 
     html: body, // Make sure `body` is defined correctly
   };
   

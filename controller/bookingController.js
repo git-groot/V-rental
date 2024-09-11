@@ -158,8 +158,7 @@ exports.bookFilter = async (req, res) => {
 
 
         // Find all car numbers that are booked within the specified date range
-        const bookedCars = await booktab.find(overlappingFilter).distinct('carNumber');
-        
+        const bookedCars = await booktab.find(overlappingFilter).distinct('carNumber');  
         const maxPrice = priceRange ? Number(priceRange) : Infinity;
 
 
@@ -175,7 +174,6 @@ exports.bookFilter = async (req, res) => {
 
         // Lookup available cars that are not booked within the specified date range
         const availableCars = await cartab.find(filterCriteria);
-        
         return res.status(200).json(availableCars);
 
 

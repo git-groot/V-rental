@@ -23,7 +23,7 @@ exports.addbook = async (req, res) => {
         const newBooking = new booktab(bookingData);
         console.log(newBooking);
         const savBooking = await newBooking.save();
-        
+
         return res.status(200).json(savBooking);
 
 
@@ -159,7 +159,7 @@ exports.bookFilter = async (req, res) => {
 
         // Find all car numbers that are booked within the specified date range
         const bookedCars = await booktab.find(overlappingFilter).distinct('carNumber');
-        console.log(priceRange);
+        
         const maxPrice = priceRange ? Number(priceRange) : Infinity;
 
 
@@ -169,13 +169,13 @@ exports.bookFilter = async (req, res) => {
             $expr: {
                 $lte: [{ $toDouble: "$price" }, maxPrice]  // Convert price to a number and compare
             },  // Ensure priceRange is a number
-            type: vehicleType === "none" ? { $in: ["Bike", "Car", "Van"] } : vehicleType
+            type: vehicleType === "" ? { $in: ["Bike", "Car", "Van"] } : vehicleType
         };
 
 
         // Lookup available cars that are not booked within the specified date range
         const availableCars = await cartab.find(filterCriteria);
-        console.log(availableCars);
+        
         return res.status(200).json(availableCars);
 
 
